@@ -14,11 +14,10 @@ Este projeto permite que você toque piano virtual usando os dedos detectados po
 
 ## Tecnologias Utilizadas
 
-- Python 3
+- Python
 - OpenCV
 - MediaPipe
 - PyAutoGUI
-- Webbrowser (abre o piano virtual no navegador)
 
 ## Pré-requisitos
 
