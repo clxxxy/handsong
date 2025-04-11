@@ -34,7 +34,6 @@ pip install opencv-python mediapipe pyautogui
 - O navegador abrirá automaticamente o site do piano virtual.
 - Posicione sua mão na frente da webcam.
 - Toque as "teclas" movendo e abaixando os dedos.
-- Para as teclas pretas (sustenidos), abaixe o polegar direito.
 
 ## Interface
 
