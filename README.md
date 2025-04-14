@@ -8,7 +8,7 @@ Este projeto permite que você toque piano virtual usando os dedos detectados po
 - O sistema identifica mãos e dedos em tempo real usando MediaPipe.
 - Os dedos levantados são mapeados para notas do piano virtual.
 - A tela é dividida em duas regiões (superior e inferior) para simular oitavas diferentes.
-- Um polegar direito levantado alterna para notas sustenidas (C#, D#, etc).
+- Um polegar direito alterna para notas sustenidas (C#, D#, etc).
 - Cada dedo é mapeado para uma tecla do teclado que corresponde a uma nota no piano virtual.
 - A tecla correspondente é "pressionada" automaticamente quando um dedo é detectado como abaixado.
 
