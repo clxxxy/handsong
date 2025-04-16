@@ -1,130 +1,45 @@
-# Markdown para README
-Básico de markdown para readme de repositórios.
+# HANDSong
+Projeto final da cadeira de IA aplicada à Música
 - - -
+Este projeto permite que você toque piano virtual usando os dedos detectados por uma câmera, com reconhecimento em tempo real através da biblioteca [MediaPipe](https://github.com/google/mediapipe) e controle de teclado via [PyAutoGUI](https://pyautogui.readthedocs.io/). O sistema interage com o site [Online Pianist](https://www.onlinepianist.com/virtual-piano) de forma automatizada, simulando pressionamentos de tecla conforme o movimento dos dedos.
 
-## I) Tamanho de fontes: hierarquia de títulos ##
+## Como Funciona
 
-# nível 1 - título principal #
+- O sistema identifica mãos e dedos em tempo real usando MediaPipe.
+- Os dedos levantados são mapeados para notas do piano virtual.
+- A tela é dividida em duas regiões (superior e inferior) para simular oitavas diferentes.
+- Um polegar direito alterna para notas sustenidas (C#, D#, etc).
+- Cada dedo é mapeado para uma tecla do teclado que corresponde a uma nota no piano virtual.
+- A tecla correspondente é "pressionada" automaticamente quando um dedo é detectado como abaixado.
 
-```
-# nível 1 - título principal #
-```
-ou símbolo "=" abaixo:
-```
-nível 1
-=
-```
+## Tecnologias Utilizadas
 
-## nível 2 - títulos secundários ##
+- Python
+- OpenCV
+- MediaPipe
+- PyAutoGUI
 
-```
-## nível 2 - títulos secundário ##
-```
-ou símbolo "-" abaixo:
-```
-nível 2
--
-```
+## Pré-requisitos
 
-### nível 3 - subtítulos ###
+Instale as dependências necessárias:
 
-```
-### nível 3 - subtítulos ###
+```bash
+pip install opencv-python mediapipe pyautogui
 ```
 
-- - -
+## Como Usar
 
-## II) Estilos de escrita ##
+- Execute o código
+- O navegador abrirá automaticamente o site do piano virtual.
+- Posicione sua mão na frente da webcam.
+- Toque as "teclas" movendo e abaixando os dedos.
 
-*itálico*, **negrito**, ***itálico-negrito*** ou ~~cortado~~
+## Interface
 
-```
-*itálico* ou _itálico_
-
-**negrito** ou __negrito__
-
-***itálico-negrito*** ou ___itálico-negrito___
-
-~~cortado~~
-```
+- A interface desenha os dedos com cores diferentes dependendo da região (superior/inferior).
+- Exibe o nome da nota na ponta do dedo quando ativada.
+- Mostra a nota ativa no canto superior direito da tela.
 
 - - -
 
-## III) Links ##
-
-link com nome: [link exemplo](http://example.com)
-
-link puro: <http://example.com>
-
-```
-link com nome: [link exemplo](http://example.com)
-link puro: <http://example.com>
-```
-
-- - -
-
-## IV) Tabelas ##
-
-- padrão: alinhamento central
-
-título 1 | título 2 | título 3
--------- | -------- | --------
-conteúdo | conteúdo | conteúdo
-conteúdo | conteúdo | conteúdo
-conteúdo | conteúdo | conteúdo
-
-```
-título 1 | título 2 | título 3
--------- | -------- | --------
-conteúdo | conteúdo | conteúdo
-conteúdo | conteúdo | conteúdo
-conteúdo | conteúdo | conteúdo
-```
-
-- alinhamentos específicos
-
-alinhamento na esquerda | alinhamento no centro | alinhamento na direita
-| :--- | :---: | ---: |
-conteúdo | conteúdo | conteúdo
-conteúdo | conteúdo | conteúdo
-conteúdo | conteúdo | conteúdo
-
-```
-alinhamento na esquerda | alinhamento no centro | alinhamento na direita
-| :--- | :---: | ---: |
-conteúdo | conteúdo | conteúdo
-conteúdo | conteúdo | conteúdo
-conteúdo | conteúdo | conteúdo
-```
-
-- - -
-
-## V) Tópicos ##
-
-- tópico 1
-  - subtópico 1.1
-- tópico 2
-  - subtópico 2.1
-  - subtópico 2.2
-    - divisão do subtópico 2.2.1
-    - divisão do subtópico 2.2.2
-
-```
-- tópico 1
-  - subtópico 1.1
-- tópico 2
-  - subtópico 2.1
-  - subtópico 2.2
-    - divisão do subtópico 2.2.1
-    - divisão do subtópico 2.2.2
-```
-ou
-```
-* tópico 1
-  * subtópico 1.1
-* tópico 2
-  * subtópico 2.1
-  * subtópico 2.2
-    * divisão do subtópico 2.2.1
-    * divisão do subtópico 2.2.2
-```
+> Este projeto é livre para uso educacional e experimental.
