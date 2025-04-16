@@ -167,7 +167,7 @@ with mp_hands.Hands(max_num_hands=2, min_detection_confidence=0.7) as hands:
             text_y = 40
             cv2.putText(frame, text, (text_x, text_y), font, 1, (255, 255, 255), 2, cv2.LINE_AA)
 
-        cv2.imshow("FINGER PIANO", frame)
+        cv2.imshow("handsong", frame)
         if cv2.waitKey(1) & 0xFF == 27:
             break
 
