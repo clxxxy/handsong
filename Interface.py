@@ -8,9 +8,9 @@ from handplayer import HandPlayer
 class MusicPlayerApp:
     def __init__(self):
         self.musicas = [
-            {"nome": "Fur Elise", "arquivo": "songs/Dia de Festa (Playback).mp3"},
-            {"nome": "Anunciação", "arquivo": "songs/João 20 _ Aqui Está - Luigi Natalino (Playback Oficial Com Letra).mp3"},
-            {"nome": "Jingle Bells", "arquivo": "songs/Thalita Roberta e Letícia Vitória - Portões Celestiais #MKNetwork.mp3"},
+            {"nome": "Fur Elise", "arquivo": "songs/Anunciação.mp3"},
+            {"nome": "Anunciação", "arquivo": ".mp3"},
+            {"nome": "Jingle Bells", "arquivo": ".mp3"},
         ]
         self.musica_selecionada = None
         self.app = None
