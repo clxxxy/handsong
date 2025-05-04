@@ -14,10 +14,10 @@ class HandPlayer:
 
         self.mp_hands = mp.solutions.hands
         self.hands = self.mp_hands.Hands(max_num_hands=2, min_detection_confidence=0.7)
-        self.drawing_utils = mp.solutions.drawing_utils
+        #self.drawing_utils = mp.solutions.drawing_utils
 
         self.prev_finger_state = {}
-        self.active_note = None
+        self.active_notes = set()
 
         # Abre o site do piano virtual
         webbrowser.open('https://www.onlinepianist.com/virtual-piano', new=1)
@@ -74,7 +74,7 @@ class HandPlayer:
         mid_line_y = h // 2
         cv2.line(frame, (0, mid_line_y), (w, mid_line_y), (255, 255, 255), 2)
 
-        self.active_note = None
+        self.active_notes = set()
 
         if results.multi_hand_landmarks and results.multi_handedness:
             polegar_direito_levantado = False
@@ -117,7 +117,8 @@ class HandPlayer:
                         self.prev_finger_state[finger_id] = is_up
 
                         if not is_up and key in self.key_note_labels:
-                            self.active_note = self.key_note_labels[key]
+                            self.active_notes.add(self.key_note_labels[key])
+                            print(f"Nota ativa: {self.active_notes}")
 
                         cx = int(hand_landmarks.landmark[tip_id].x * w)
                         cy = int(hand_landmarks.landmark[tip_id].y * h)
@@ -132,9 +133,9 @@ class HandPlayer:
                             nota = self.key_note_labels[key]
                             cv2.putText(frame, nota, (cx + 10, cy - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
 
-        if self.active_note:
+        if self.active_notes:
             font = cv2.FONT_HERSHEY_SIMPLEX
-            text = f"{self.active_note}"
+            text = ", ".join(sorted(self.active_notes))  # Junta as notas
             text_size = cv2.getTextSize(text, font, 1, 2)[0]
             text_x = w - text_size[0] - 20
             text_y = 40
