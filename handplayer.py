@@ -14,36 +14,19 @@ class HandPlayer:
 
         self.mp_hands = mp.solutions.hands
         self.hands = self.mp_hands.Hands(max_num_hands=2, min_detection_confidence=0.7)
-        #self.drawing_utils = mp.solutions.drawing_utils
-
+        
         self.prev_finger_state = {}
         self.active_notes = set()
+        self.active_keys = {}  # Novo: controle de teclas pressionadas
 
-        # Abre o site do piano virtual
         webbrowser.open('https://www.onlinepianist.com/virtual-piano', new=1)
 
-        self.finger_map_lower_default = {
-            (20, 'Left'): 'q', (12, 'Left'): 'w', (8, 'Left'): 'e', (4, 'Left'): 'r',
-            (8, 'Right'): 't', (12, 'Right'): 'y', (20, 'Right'): 'u',
-        }
-        self.finger_map_lower_polegar = {
-            (20, 'Left'): '2', (12, 'Left'): '3', (8, 'Left'): None, (4, 'Left'): '5',
-            (8, 'Right'): '6', (12, 'Right'): '7', (20, 'Right'): None,
-        }
-        self.finger_map_upper_default = {
-            (20, 'Left'): 'i', (12, 'Left'): 'o', (8, 'Left'): 'p', (4, 'Left'): 'z',
-            (8, 'Right'): 'x', (12, 'Right'): 'c', (20, 'Right'): 'v',
-        }
-        self.finger_map_upper_polegar = {
-            (20, 'Left'): '9', (12, 'Left'): '0', (8, 'Left'): None, (4, 'Left'): 's',
-            (8, 'Right'): 'd', (12, 'Right'): 'f', (20, 'Right'): None,
-        }
-        self.key_note_labels = {
-            'q': 'C3', 'w': 'D3', 'e': 'E3', 'r': 'F3', 't': 'G3', 'y': 'A3', 'u': 'B3',
-            '2': 'C#3', '3': 'D#3', '5': 'F#3', '6': 'G#3', '7': 'A#3',
-            'i': 'C4', 'o': 'D4', 'p': 'E4', 'z': 'F4', 'x': 'G4', 'c': 'A4', 'v': 'B4',
-            '9': 'C#4', '0': 'D#4', 's': 'F#4', 'd': 'G#4', 'f': 'A#4',
-        }
+        # Mapeamentos mantidos iguais
+        self.finger_map_lower_default = {(20, 'Left'): 'q', (12, 'Left'): 'w', (8, 'Left'): 'e', (4, 'Left'): 'r', (8, 'Right'): 't', (12, 'Right'): 'y', (20, 'Right'): 'u'}
+        self.finger_map_lower_polegar = {(20, 'Left'): '2', (12, 'Left'): '3', (8, 'Left'): None, (4, 'Left'): '5', (8, 'Right'): '6', (12, 'Right'): '7', (20, 'Right'): None}
+        self.finger_map_upper_default = {(20, 'Left'): 'i', (12, 'Left'): 'o', (8, 'Left'): 'p', (4, 'Left'): 'z', (8, 'Right'): 'x', (12, 'Right'): 'c', (20, 'Right'): 'v'}
+        self.finger_map_upper_polegar = {(20, 'Left'): '9', (12, 'Left'): '0', (8, 'Left'): None, (4, 'Left'): 's', (8, 'Right'): 'd', (12, 'Right'): 'f', (20, 'Right'): None}
+        self.key_note_labels = {'q': 'C3', 'w': 'D3', 'e': 'E3', 'r': 'F3', 't': 'G3', 'y': 'A3', 'u': 'B3', '2': 'C#3', '3': 'D#3', '5': 'F#3', '6': 'G#3', '7': 'A#3', 'i': 'C4', 'o': 'D4', 'p': 'E4', 'z': 'F4', 'x': 'G4', 'c': 'A4', 'v': 'B4', '9': 'C#4', '0': 'D#4', 's': 'F#4', 'd': 'G#4', 'f': 'A#4'}
 
     def is_finger_up(self, landmarks, tip_id, hand_label):
         if tip_id == 4:
@@ -74,14 +57,14 @@ class HandPlayer:
         mid_line_y = h // 2
         cv2.line(frame, (0, mid_line_y), (w, mid_line_y), (255, 255, 255), 2)
 
-        self.active_notes = set()
+        current_keys = set()  # Teclas que devem estar pressionadas neste frame
+        self.active_notes.clear()
 
         if results.multi_hand_landmarks and results.multi_handedness:
             polegar_direito_levantado = False
-            hand_infos = zip(results.multi_hand_landmarks, results.multi_handedness)
-            for hand_landmarks, handedness in hand_infos:
-                hand_label = handedness.classification[0].label
-                if hand_label == 'Right':
+            # Detecção do polegar direito (mantido igual)
+            for hand_landmarks, handedness in zip(results.multi_hand_landmarks, results.multi_handedness):
+                if handedness.classification[0].label == 'Right':
                     polegar_direito_levantado = self.is_finger_up(hand_landmarks, 4, 'Right')
                     break
 
@@ -89,13 +72,8 @@ class HandPlayer:
                 hand_label = handedness.classification[0].label
                 center_y = hand_landmarks.landmark[self.mp_hands.HandLandmark.MIDDLE_FINGER_MCP].y * h
                 region = 'upper' if center_y < mid_line_y else 'lower'
-                cor_regiao = (85, 17, 170) if region == 'upper' else (68, 0, 136)
 
-                finger_map = (
-                    self.finger_map_upper_polegar if polegar_direito_levantado else self.finger_map_upper_default
-                ) if region == 'upper' else (
-                    self.finger_map_lower_polegar if polegar_direito_levantado else self.finger_map_lower_default
-                )
+                finger_map = (self.finger_map_upper_polegar if polegar_direito_levantado else self.finger_map_upper_default) if region == 'upper' else (self.finger_map_lower_polegar if polegar_direito_levantado else self.finger_map_lower_default)
 
                 for (tip_id, label) in finger_map:
                     if label == hand_label:
@@ -104,47 +82,51 @@ class HandPlayer:
                         if key is None:
                             continue
 
+                        # Lógica de detecção de estado do dedo (mantida)
                         is_control_thumb = (tip_id == 4 and hand_label == 'Right' and polegar_direito_levantado)
                         is_typing_thumb = (tip_id == 4 and not is_control_thumb)
                         is_up = not self.is_thumb_typing_up(hand_landmarks, hand_label) if is_typing_thumb else self.is_finger_up(hand_landmarks, tip_id, hand_label)
 
+                        # Atualiza estado anterior
                         if finger_id not in self.prev_finger_state:
                             self.prev_finger_state[finger_id] = True
-
-                        if not is_up and self.prev_finger_state[finger_id]:
-                            pyautogui.press(key)
-
                         self.prev_finger_state[finger_id] = is_up
 
+                        # Adiciona à lista de teclas atuais se estiver pressionado
                         if not is_up and key in self.key_note_labels:
+                            current_keys.add(key)
                             self.active_notes.add(self.key_note_labels[key])
-                            print(f"Nota ativa: {self.active_notes}")
 
+                        # Código de desenho mantido igual
                         cx = int(hand_landmarks.landmark[tip_id].x * w)
                         cy = int(hand_landmarks.landmark[tip_id].y * h)
-
-                        cor_final = (232, 254, 236) if not is_up else (
-                            (235, 239, 194) if region == 'upper' else (191, 164, 110)
-                        ) if not polegar_direito_levantado else cor_regiao
-
+                        cor_final = (232, 254, 236) if not is_up else ((235, 239, 194) if region == 'upper' else (191, 164, 110)) if not polegar_direito_levantado else (85, 17, 170) if region == 'upper' else (68, 0, 136)
                         cv2.circle(frame, (cx, cy), 10, cor_final, -1)
-
                         if key in self.key_note_labels:
-                            nota = self.key_note_labels[key]
-                            cv2.putText(frame, nota, (cx + 10, cy - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
+                            cv2.putText(frame, self.key_note_labels[key], (cx + 10, cy - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
 
+        # Atualiza estados das teclas
+        for key in list(self.active_keys.keys()):
+            if key not in current_keys:
+                pyautogui.keyUp(key)
+                del self.active_keys[key]
+
+        for key in current_keys:
+            if key not in self.active_keys:
+                pyautogui.keyDown(key)
+                self.active_keys[key] = True
+                pyautogui.sleep(0.02)  # Pequeno delay para estabilização
+
+        # Código de exibição de notas ativas mantido
         if self.active_notes:
-            font = cv2.FONT_HERSHEY_SIMPLEX
-            text = ", ".join(sorted(self.active_notes))  # Junta as notas
-            text_size = cv2.getTextSize(text, font, 1, 2)[0]
-            text_x = w - text_size[0] - 20
-            text_y = 40
-            cv2.putText(frame, text, (text_x, text_y), font, 1, (255, 255, 255), 2, cv2.LINE_AA)
+            text = ", ".join(sorted(self.active_notes))
+            text_size = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, 1, 2)[0]
+            cv2.putText(frame, text, (w - text_size[0] - 20, 40), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
 
-        img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        img = Image.fromarray(img)
-        return img
+        return Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
 
     def stop(self):
-        self.running = False
+        for key in list(self.active_keys.keys()):
+            pyautogui.keyUp(key)
+        self.active_keys.clear()
         self.cap.release()
