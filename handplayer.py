@@ -1,8 +1,14 @@
 import cv2
 import mediapipe as mp
 import pyautogui
-import webbrowser
 from PIL import Image
+
+# paleta de cores
+preto = (0, 0, 0)
+cinza_claro = (224, 224, 224)
+cinza_escuro = (74, 69, 70)
+branco = (255, 255, 255)
+laranja = (17, 127, 255)
 
 class HandPlayer:
     def __init__(self, width=640, height=480):
@@ -18,8 +24,6 @@ class HandPlayer:
         self.prev_finger_state = {}
         self.active_notes = set()
         self.active_keys = {}  # Novo: controle de teclas pressionadas
-
-        webbrowser.open('https://www.onlinepianist.com/virtual-piano', new=1)
 
         # Mapeamentos mantidos iguais
         self.finger_map_lower_default = {(20, 'Left'): 'q', (12, 'Left'): 'w', (8, 'Left'): 'e', (4, 'Left'): 'r', (8, 'Right'): 't', (12, 'Right'): 'y', (20, 'Right'): 'u'}
@@ -100,7 +104,7 @@ class HandPlayer:
                         # Código de desenho mantido igual
                         cx = int(hand_landmarks.landmark[tip_id].x * w)
                         cy = int(hand_landmarks.landmark[tip_id].y * h)
-                        cor_final = (232, 254, 236) if not is_up else ((235, 239, 194) if region == 'upper' else (191, 164, 110)) if not polegar_direito_levantado else (85, 17, 170) if region == 'upper' else (68, 0, 136)
+                        cor_final = laranja if not is_up else (branco if region == 'upper' else cinza_claro) if not polegar_direito_levantado else preto if region == 'upper' else cinza_escuro
                         cv2.circle(frame, (cx, cy), 10, cor_final, -1)
                         if key in self.key_note_labels:
                             cv2.putText(frame, self.key_note_labels[key], (cx + 10, cy - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
