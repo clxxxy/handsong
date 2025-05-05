@@ -1,4 +1,4 @@
-# HANDSong
+# Handsong
 Projeto final da cadeira de IA aplicada à Música
 - - -
 Este projeto permite que você toque piano virtual usando os dedos detectados por uma câmera, com reconhecimento em tempo real através da biblioteca [MediaPipe](https://github.com/google/mediapipe) e controle de teclado via [PyAutoGUI](https://pyautogui.readthedocs.io/). O sistema interage com o site [Online Pianist](https://www.onlinepianist.com/virtual-piano) de forma automatizada, simulando pressionamentos de tecla conforme o movimento dos dedos.
