@@ -1,15 +1,19 @@
+import webbrowser
 import customtkinter as ctk
+
 from PIL import Image
 from handplayer import HandPlayer
-import webbrowser
 
-# paleta de cores
+# Definição da Paleta de Cores
 preto = "#000000"
 cinza = "#8C8A93"
 branco = "#FFFFFF"
 laranja = "#FF7F11"
 
+# Classe principal da interface
 class HandCamApp:
+    
+    # Inicializa a classe com os atributos necessários
     def __init__(self):
         self.app = None
         self.handplayer = None
@@ -18,21 +22,24 @@ class HandCamApp:
         self.frame_webcam = None
         self.piano_url = "https://www.onlinepianist.com/virtual-piano" # piano virtual
     
+    # Links de acesso ao repositório do projeto no GitHub e site de cifras melódicas
     def github_link(self):
         webbrowser.open("https://github.com/clxxxy/handsong")
 
     def cifras_link(self):
-        webbrowser.open("https://ciframelodica.com.br") # site de cifras
+        webbrowser.open("https://ciframelodica.com.br")
 
+    # Inicializa a interface gráfica, definindo o tamanho e título da janela
     def init_ui(self):
         self.app = ctk.CTk()
         self.app.geometry("1280x720")
         self.app.title("Handsong")
         self.show_main_menu()
 
+    # Exibe o menu principal da aplicação
     def show_main_menu(self):
 
-        # limpa frames anteriores se existirem
+        # Para a execução da webcam e de do HandPlayer
         if self.frame_webcam:
             self.frame_webcam.destroy()
             self.frame_webcam = None
@@ -40,16 +47,16 @@ class HandCamApp:
             self.handplayer.stop()
             self.handplayer = None
 
-        # cria o frame principal (menu)
+        # Cria o frame principal do menu se não existir, e limpa os widgets se já existir
         if not self.frame_principal:
             self.frame_principal = ctk.CTkFrame(self.app, fg_color=preto)
             self.frame_principal.pack(fill="both", expand=True, padx=20, pady=20)
         else:
-             # limpa widgets do frame principal se já existir
             for widget in self.frame_principal.winfo_children():
                 widget.destroy()
             self.frame_principal.pack(fill="both", expand=True, padx=20, pady=20) # garante que está visível
         
+        # Carrega a imagem da logo e a exibe no frame principal
         try:
             logo_image = Image.open("interface\logo.png")
             ctk_logo = ctk.CTkImage(light_image=logo_image, size=(1000, 1000))
@@ -61,7 +68,7 @@ class HandCamApp:
             logo_label = ctk.CTkLabel(self.frame_principal, text="[Handsong]")
             logo_label.place(relx=0.5, rely=0.3, anchor=ctk.CENTER)
 
-        # botôes
+        # Botões de funcionalidades do menu principal: Play, Cifras e GitHub
         botao_play = ctk.CTkButton(self.frame_principal,
                                    text="iniciar",
                                    command=self.start_webcam_view,
@@ -88,28 +95,29 @@ class HandCamApp:
                                    font=ctk.CTkFont(family="Century", size=16, weight="normal"))
         botao_link.place(relx=0.5, rely=0.85, anchor=ctk.CENTER)
 
-        # label inferior
+        # Label inferior com informações sobre o projeto
         label_inferior = ctk.CTkLabel(self.frame_principal,
                                     text="Handsong - v1.0 | desenvolvido por Cleydson Junior e Ismael Alves",
                                     font=ctk.CTkFont(family="Century", size=12, weight="normal"),
                                     text_color="gray")
         label_inferior.pack(side=ctk.BOTTOM, pady=10, padx=10)
 
-    # frame da webcam
+    # Inicia a visualização da webcam
     def start_webcam_view(self):
-        # esconde o frame principal
+
+        # Esconde o frame principal
         if self.frame_principal:
             self.frame_principal.pack_forget()
 
-        # cria o frame da webcam
+        # Cria o frame da webcam
         self.frame_webcam = ctk.CTkFrame(self.app, fg_color=preto)
         self.frame_webcam.pack(fill="both", expand=True, padx=20, pady=20)
 
-        # label para o vídeo da webcam
+        # Label para o vídeo da webcam
         self.label_video = ctk.CTkLabel(self.frame_webcam, text="")
         self.label_video.pack(pady=0, padx=0, anchor=ctk.CENTER, fill="both", expand=True)
 
-        # botões
+        # Botões
         botao_abrir_piano = ctk.CTkButton(self.frame_webcam,
                                           text="Abrir Piano Virtual",
                                           command=self.abrir_piano,
@@ -127,6 +135,7 @@ class HandCamApp:
                                      font=ctk.CTkFont(family="Century", size=16, weight="normal"))
         botao_voltar.pack(pady=50, padx=100, side=ctk.LEFT)
 
+        # Carrega a imagem da logo e a exibe no frame da webcam
         try:
             logo_path = "interface\logo.png"
             tamanho_logo_pequena = (110, 110)
@@ -142,23 +151,29 @@ class HandCamApp:
         except Exception as e:
             print(f"Erro ao carregar logo para webcam: {e}")
 
-        # inicializa o HandPlayer
+        # Inicializa o HandPlayer
         self.handplayer = HandPlayer()
         self._atualizar_frame()
 
-    # abre o piano virtual
+    # Abre o piano virtual
     def abrir_piano(self):
         webbrowser.open(self.piano_url)
 
+    # Atualiza o frame da webcam
     def _atualizar_frame(self):
+
+        # Para a execução da webcam e do HandPlayer
         if not self.frame_webcam or not self.frame_webcam.winfo_exists():
             if self.handplayer:
                 self.handplayer.stop()
                 self.handplayer = None
             return
 
+        # Verifica se o HandPlayer está ativo e atualiza o frame da webcam
         if self.handplayer:
             frame = self.handplayer.get_frame()
+
+            # Converte o frame para o formato correto
             if frame:
                 max_width = self.frame_webcam.winfo_width() * 0.7
                 max_height = self.frame_webcam.winfo_height() - 100
@@ -176,14 +191,16 @@ class HandCamApp:
              self.label_video.configure(image=None)
              self.label_video.image = None
 
+    # Executa a aplicação, iniciando a interface gráfica e o loop principal
     def run(self):
         self.init_ui()
         self.app.mainloop()
 
-        # garante que a câmera seja liberada ao fechar
+        # Garante que a câmera seja liberada ao fechar
         if self.handplayer:
             self.handplayer.stop()
 
+# Instancia a classe e executa a aplicação
 if __name__ == "__main__":
     app_instance = HandCamApp()
     app_instance.run()
