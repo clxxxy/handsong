@@ -1,8 +1,9 @@
-<img src="https://github.com/clxxxy/handsong/blob/main/interface/logo.png" largura="300" />
-
 # handsong: gesture-powered music
-Projeto final da cadeira de IA aplicada à música
-- - -
+
+<p>
+  <img src="https://github.com/clxxxy/handsong/blob/main/interface/handsong_cape.png"/>
+</p>
+
 Este projeto permite que você toque piano virtual usando os dedos detectados por uma câmera, com reconhecimento em tempo real através das bibliotecas [MediaPipe](https://github.com/google/mediapipe) e [OpenCV](https://opencv.org). O sistema interage com o site [Online Pianist](https://www.onlinepianist.com/virtual-piano) de forma automatizada, simulando pressionamentos de tecla com[PyAutoGUI](https://pyautogui.readthedocs.io/) conforme o movimento dos dedos.
 
 ## Como Funciona
