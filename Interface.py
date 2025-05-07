@@ -128,7 +128,7 @@ class HandCamApp:
 
 
         botao_voltar = ctk.CTkButton(self.frame_webcam,
-                                     text="voltar ao Menu",
+                                     text="voltar ao menu",
                                      command=self.show_main_menu,
                                      fg_color=preto,
                                      hover_color=laranja,
