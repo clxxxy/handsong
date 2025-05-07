@@ -65,7 +65,7 @@ class HandCamApp:
 
         except FileNotFoundError:
             print("Erro: Arquivo logo.png não encontrado.")
-            logo_label = ctk.CTkLabel(self.frame_principal, text="[Handsong]")
+            logo_label = ctk.CTkLabel(self.frame_principal, text="[handsong]")
             logo_label.place(relx=0.5, rely=0.3, anchor=ctk.CENTER)
 
         # Botões de funcionalidades do menu principal: Play, Cifras e GitHub
@@ -97,7 +97,7 @@ class HandCamApp:
 
         # Label inferior com informações sobre o projeto
         label_inferior = ctk.CTkLabel(self.frame_principal,
-                                    text="Handsong - v1.0 | desenvolvido por Cleydson Junior e Ismael Alves",
+                                    text="handsong - v1.0 | desenvolvido por Cleydson Junior e Ismael Alves",
                                     font=ctk.CTkFont(family="Century", size=12, weight="normal"),
                                     text_color="gray")
         label_inferior.pack(side=ctk.BOTTOM, pady=10, padx=10)
@@ -119,7 +119,7 @@ class HandCamApp:
 
         # Botões
         botao_abrir_piano = ctk.CTkButton(self.frame_webcam,
-                                          text="Abrir Piano Virtual",
+                                          text="abrir piano virtual",
                                           command=self.abrir_piano,
                                           fg_color=preto,
                                           hover_color=laranja,
@@ -128,7 +128,7 @@ class HandCamApp:
 
 
         botao_voltar = ctk.CTkButton(self.frame_webcam,
-                                     text="Voltar ao Menu",
+                                     text="voltar ao Menu",
                                      command=self.show_main_menu,
                                      fg_color=preto,
                                      hover_color=laranja,
