@@ -4,7 +4,7 @@
  <img src="https://github.com/clxxxy/handsong/blob/main/interface/handsong_cape.png" width="1080"/>
 </p>
 
-Este projeto permite que você toque piano virtual usando os dedos detectados pela webcam, com reconhecimento em tempo real através das bibliotecas [MediaPipe](https://github.com/google/mediapipe) e [OpenCV](https://opencv.org). O sistema interage com o site [Online Pianist](https://www.onlinepianist.com/virtual-piano) de forma automatizada, simulando pressionamentos de tecla com[PyAutoGUI](https://pyautogui.readthedocs.io/) conforme o movimento dos dedos.
+Este projeto permite que você toque piano virtual usando os dedos detectados pela webcam, com reconhecimento em tempo real através das bibliotecas [MediaPipe](https://github.com/google/mediapipe) e [OpenCV](https://opencv.org). O sistema interage com o site [Online Pianist](https://www.onlinepianist.com/virtual-piano) de forma automatizada, simulando pressionamentos de tecla com [PyAutoGUI](https://pyautogui.readthedocs.io/) conforme o movimento dos dedos.
 
 ## Como Funciona
 
