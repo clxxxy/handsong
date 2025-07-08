@@ -5,7 +5,7 @@ from PIL import Image
 from handplayer import HandPlayer
 
 # Definição da Paleta de Cores
-preto = "#000000"
+preto = "#303030"
 cinza = "#8C8A93"
 branco = "#FFFFFF"
 laranja = "#FF7F11"
