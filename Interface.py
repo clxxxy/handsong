@@ -70,7 +70,7 @@ class HandCamApp:
 
         # Botões de funcionalidades do menu principal: Play, Cifras e GitHub
         botao_play = ctk.CTkButton(self.frame_principal,
-                                   text="iniciar",
+                                   text="Iniciar",
                                    command=self.start_webcam_view,
                                    fg_color=cinza,
                                    hover_color=laranja,
@@ -79,7 +79,7 @@ class HandCamApp:
 
 
         botao_cifras = ctk.CTkButton(self.frame_principal,
-                                   text="cifras",
+                                   text="Cifras",
                                    command=self.cifras_link,
                                    fg_color=preto,
                                    hover_color=laranja,
@@ -88,7 +88,7 @@ class HandCamApp:
         
 
         botao_link = ctk.CTkButton(self.frame_principal,
-                                   text="github",
+                                   text="Github",
                                    command=self.github_link,
                                    fg_color=preto,
                                    hover_color=laranja,
@@ -119,7 +119,7 @@ class HandCamApp:
 
         # Botões
         botao_abrir_piano = ctk.CTkButton(self.frame_webcam,
-                                          text="abrir piano virtual",
+                                          text="Piano Virtual",
                                           command=self.abrir_piano,
                                           fg_color=preto,
                                           hover_color=laranja,
@@ -128,7 +128,7 @@ class HandCamApp:
 
 
         botao_voltar = ctk.CTkButton(self.frame_webcam,
-                                     text="voltar ao menu",
+                                     text="Menu",
                                      command=self.show_main_menu,
                                      fg_color=preto,
                                      hover_color=laranja,
