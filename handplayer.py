@@ -65,6 +65,22 @@ class HandPlayer:
         rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         results = self.hands.process(rgb)
 
+        # Avaliação da iluminação do ambiente
+        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        mean_brightness = gray.mean()
+        luminosity_threshold = 100  # Ajuste 
+
+        if mean_brightness < luminosity_threshold:
+            message = "Ambiente pouco iluminado!"
+            font_scale = 0.4
+            thickness = 1
+            font = cv2.FONT_HERSHEY_SIMPLEX
+            text_size = cv2.getTextSize(message, font, font_scale, thickness)[0]
+            x = int((w - text_size[0]) / 2)
+            y = h - 10
+            cv2.rectangle(frame, (x-10, y-text_size[1]-10), (x+text_size[0]+10, y+10), (0,0,0), -1)
+            cv2.putText(frame, message, (x, y), font, font_scale, (255, 255, 255), thickness, cv2.LINE_AA)
+
         # Desenha a linha de refêrencia para as duas regiões de oitavas
         mid_line_y = h // 2
         cv2.line(frame, (0, mid_line_y), (w, mid_line_y), (255, 255, 255), 2)
