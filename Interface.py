@@ -98,6 +98,7 @@ class HandCamApp:
         # Label inferior com informações sobre o projeto
         label_inferior = ctk.CTkLabel(self.frame_principal,
                                     text="handsong - v1.0 | desenvolvido por Cleydson Junior e Ismael Alves",
+                                    # text="handsong - v1.0",
                                     font=ctk.CTkFont(family="Century", size=12, weight="normal"),
                                     text_color="gray")
         label_inferior.pack(side=ctk.BOTTOM, pady=10, padx=10)
